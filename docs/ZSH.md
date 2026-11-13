@@ -42,15 +42,12 @@ After editing `~/.zshrc`: `omz reload` (or `zload`, or open a new tab).
 
 ## Problems in the current setup
 
-None of these stop the shell from working, but they change how the plugins below behave. No config files were changed in this update.
+None of these stop the shell from working, but they change how the plugins below behave.
 
 | Problem | What you'll notice | Fix |
 | --- | --- | --- |
-| `zsh-syntax-highlighting` is 3rd in `plugins=(...)` | Its README says it must be the last plugin. Right now zsh-interactive-cd, zsh-navigation-tools and dirhistory load after it | Move it to the end of the list |
 | dirhistory owns Option-B, Option-F and Option-arrows | Those keys no longer move by word. They wipe what you typed and change folder | See [dirhistory](#dirhistory) |
 | zsh-navigation-tools binds Ctrl-R, then fzf rebinds it | Ctrl-R is fzf's history search. ZNT's is `nhistory` | Nothing to do unless you prefer ZNT's |
-| The theme settings are in `.zshrc` three times | `wizard.sh` ran twice on Nov 4. Its cleanup step only deletes the `# Modern Dark Pro` comment line, so the old settings stay and a new block is added each run. The last block wins, which moved the clock to the right | Keep one block (see [Prompt theme](#prompt-theme-modern-dark-pro-capsule)) |
-| `zstyle ':omz:alpha:lib:git' async-prompt no` | Does nothing. It only affects themes that use Oh My Zsh's `git_prompt_info`, and yours reads git status itself | Delete the line |
 | `gg`, `gga`, `gk`, `gke` (git plugin) | They fail: Apple's git doesn't include `git gui` or `gitk` | `brew install git-gui`, or ignore them |
 
 ## Config files and load order
@@ -1117,7 +1114,7 @@ Set near the top of `.zshrc`, before OMZ.
 | `zstyle ':omz:update' frequency <days>` | `13` | default | Days between update checks |
 | `zstyle ':omz:update' cooldown <days>` | unset | default | How old an update must be before it's applied |
 | `zstyle ':omz:lib:theme-and-appearance' gnu-ls yes` | off | off | Use GNU `ls` (`gls`) if it's installed |
-| `zstyle ':omz:alpha:lib:git' async-prompt <yes/no>` | automatic | `no` | Only matters for themes using Oh My Zsh's git prompt. Yours doesn't |
+| `zstyle ':omz:alpha:lib:git' async-prompt <yes/no>` | automatic | default | Only matters for themes using Oh My Zsh's git prompt. Yours doesn't |
 
 ## PATH
 
@@ -1145,9 +1142,11 @@ Searched top to bottom. `which -a <command>` shows every copy of a command and w
 | uv | Python projects and virtualenvs | `uv venv`, `uv add <pkg>`, `uv run script.py` |
 | bun | JavaScript runtime and package manager | `bun install`, `bun run dev`, `bunx <tool>` |
 | claude | Claude Code CLI (2.1.x) | `claude`, `claude -c`, `claude -r`. Full sheet: [CLAUDE-CODE.md](CLAUDE-CODE.md) |
-| lazygit | Terminal git UI. Not installed | `brew install lazygit`, then `lazygit` |
+| lazygit | Terminal git UI (also `<leader>gg` in Neovim) | `lazygit` in a repo |
 
 ## Change log
+
+- 2026-11-13: `.zshrc` cleanup: one theme block instead of three (same values; clock stays on the right), `zsh-syntax-highlighting` moved to the end of `plugins=(...)`, removed the no-op `async-prompt` zstyle. Installed lazygit.
 
 - 2026-11-13: Re-checked against `~/.zshrc`. `lls` now uses eza; added `dlls`, `llst`, `dllst`. `~/Developer` exists again, so `cddev` works. The three theme blocks are still there (the last one wins: clock on the right). Added eza to Other CLI tools. No config files changed.
 

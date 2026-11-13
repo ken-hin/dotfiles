@@ -10,6 +10,8 @@ brew "fzf"
 brew "gh"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+# Simple terminal UI for git commands
+brew "lazygit"
 # LLVM's OpenMP runtime library
 brew "libomp"
 # TIFF library and utilities

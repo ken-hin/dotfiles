@@ -38,6 +38,7 @@ Edits land in this repo automatically (the configs *are* these files). Commit an
 | `docs/guides/` | — | Setup guides: `local-ai-setup-guide.md` (Ollama/LM Studio on the Mac mini), `agent_setup.md` (LLM agent tool-calling notes) |
 | `archive/` | — | Old configs from earlier cleanups |
 | `link.sh` | — | Creates/repairs every link above |
+| `.claude/settings.json` | — | Lets Claude Code background sessions edit this repo in place (it's the live config, so a worktree copy wouldn't take effect) |
 
 ## Common tasks
 

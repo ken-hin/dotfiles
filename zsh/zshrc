@@ -76,7 +76,6 @@ ENABLE_CORRECTION="true"
 plugins=(
   git
   zsh-autosuggestions
-  zsh-syntax-highlighting
   zsh-interactive-cd
   zsh-navigation-tools
   aliases
@@ -85,53 +84,28 @@ plugins=(
   colorize
   dirhistory
   docker-compose
+  zsh-syntax-highlighting   # must stay last (its README says so)
 )
 
 # ==================== Modern Dark Pro Capsule theme ====================
-# These have to be set before Oh My Zsh loads. They're the values that
-# were actually in effect before the 2026-11-03 cleanup (the old file
-# set them 4 times and only the last copy counted).
+# Set before Oh My Zsh loads. One block only: the theme's wizard.sh adds a
+# new block each run without removing the old one, so delete extras after
+# running it (the last copy wins).
 export MODERN_DARK_PRO_VARIANT="night"           # night | monokai
 export MODERN_DARK_PRO_PILL_STYLE="bracket"      # bracket | round | none
 export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"  # solid | dark (round pills only)
 export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"  # single | two-line | classic
 export MODERN_DARK_PRO_NERD_FONTS=true
 export MODERN_DARK_PRO_SHOW_CLOCK=true
-export MODERN_DARK_PRO_CLOCK_POSITION="top"      # top | rprompt
+export MODERN_DARK_PRO_CLOCK_POSITION="rprompt"  # top | rprompt
 export MODERN_DARK_PRO_CLICKABLE_PATH=true
 export MODERN_DARK_PRO_CLICKABLE_GIT=true
 export MODERN_DARK_PRO_PATH_STYLE="limit"
 export MODERN_DARK_PRO_PATH_DEPTH=6              # folders shown when PATH_STYLE=limit
 
-# Show the git branch right away instead of filling it in a moment later.
-zstyle ':omz:alpha:lib:git' async-prompt no
-
 # Docker CLI completions. This has to be on fpath before Oh My Zsh runs
 # compinit, so there's no need for a second compinit later.
 fpath=($HOME/.docker/completions $fpath)
-
-ZSH_THEME="modern-dark-pro-capsule"
-export MODERN_DARK_PRO_VARIANT="night"
-export MODERN_DARK_PRO_PILL_STYLE="bracket"
-export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
-export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"
-export MODERN_DARK_PRO_NERD_FONTS=true
-export MODERN_DARK_PRO_SHOW_CLOCK=true
-export MODERN_DARK_PRO_CLOCK_POSITION="rprompt"
-export MODERN_DARK_PRO_CLICKABLE_PATH=true
-export MODERN_DARK_PRO_CLICKABLE_GIT=true
-
-# Modern Dark Pro Capsule Theme Config
-ZSH_THEME="modern-dark-pro-capsule"
-export MODERN_DARK_PRO_VARIANT="night"
-export MODERN_DARK_PRO_PILL_STYLE="bracket"
-export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
-export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"
-export MODERN_DARK_PRO_NERD_FONTS=true
-export MODERN_DARK_PRO_SHOW_CLOCK=true
-export MODERN_DARK_PRO_CLOCK_POSITION="rprompt"
-export MODERN_DARK_PRO_CLICKABLE_PATH=true
-export MODERN_DARK_PRO_CLICKABLE_GIT=true
 
 source $ZSH/oh-my-zsh.sh
 

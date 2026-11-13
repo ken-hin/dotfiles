@@ -204,7 +204,7 @@ Pin a few files per project and jump straight to them.
 | `<leader>gB` / `<leader>gY` | Open the file on GitHub / copy the GitHub link |
 | `<leader>gi` / `<leader>gp` | GitHub issues / pull requests |
 | `<leader>ge` | Git status as a neo-tree float |
-| `<leader>gg` / `<leader>gG` | lazygit (project / cwd). Only appears after `brew install lazygit` |
+| `<leader>gg` / `<leader>gG` | lazygit (project / cwd) |
 | `<leader>uG` | Toggle git signs in the gutter |
 
 ## Diagnostics, quickfix, todos
@@ -368,7 +368,7 @@ Commands to remember:
 | ripgrep (`rg`) | `<leader>/`, `<leader>sg` and the other grep pickers | Yes (Homebrew) |
 | fd | `<leader>ff` and the other file pickers | Yes (Homebrew) |
 | trash | `d` in neo-tree sends files to the macOS Trash | Yes (built into macOS) |
-| lazygit | `<leader>gg` / `<leader>gG` | No: `brew install lazygit` |
+| lazygit | `<leader>gg` / `<leader>gG` | Yes (Homebrew, in the Brewfile) |
 | claude | `<leader>ac` | Yes (`~/.local/bin`) |
 
 ## Changes made 2026-11-03
@@ -384,4 +384,4 @@ Originals are in `~/dotfiles/archive/2026-11-03/before-fixes/`, with details in 
 - `render-markdown.lua` trimmed to the 7 settings that differ from defaults.
 - Fixed comments in `keymaps.lua`, `better-escape.lua` and `neo-tree.lua`. Removed the old `neodev` block from `.neoconf.json`.
 
-Still to do: `brew install lazygit`, then in Neovim run `:Lazy` and press `X` to remove project.nvim and lspkind-nvim.
+2026-11-13: lazygit installed; project.nvim and lspkind-nvim removed with `:Lazy` → `X`.
