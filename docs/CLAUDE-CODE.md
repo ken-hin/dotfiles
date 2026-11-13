@@ -61,7 +61,7 @@ From `~/.claude/settings.json` and `~/.claude.json`:
 | `env.GATEGUARD_BASH_ROUTINE_DISABLED` | `1` | Turns off ECC GateGuard's checks on routine shell commands (the edit checks stay on) |
 | `enabledPlugins` | `daloopa`, `data`, `engineering` (synced from claude.ai) all off. ECC is no longer a plugin | See [ECC](#ecc) |
 | `hooks` | ECC's hooks, written by its installer | Profile via `ECC_HOOK_PROFILE` (default `standard`) |
-| `skillOverrides` | 35 ECC commands `off` | Commands for unused languages or missing dependencies. See [ECC](#ecc) |
+| `skillOverrides` | 60 ECC commands `off`, 25 `name-only` | `off`: unused languages, missing dependencies, niche tooling. `name-only`: commands you type yourself, listed without a description so the skill list fits Claude's budget. See [ECC](#ecc) |
 | `autoUpdates` (`~/.claude.json`) | `false` | Claude Code doesn't update itself. Run `claude update` |
 
 Change most of these with `/config`. For permissions, hooks and env vars, ask Claude to use the `update-config` skill, or edit the JSON directly.
@@ -170,7 +170,7 @@ ECC ("Everything Claude Code", `affaan-m/ECC`) is installed as ordinary files in
 | --- | --- | --- |
 | Skills (your stack plus core workflow) | `~/.claude/skills/` | 43 |
 | Agents | `~/.claude/agents/` | 30 |
-| Slash commands | `~/.claude/commands/` | 98 installed, 35 `off` in `skillOverrides` |
+| Slash commands | `~/.claude/commands/` | 98 installed: 60 `off`, 25 `name-only` (still work when typed) in `skillOverrides` |
 | Rules (coding style, testing, git, security) | `~/.claude/rules/ecc/` | `common` loads every session; `python`, `typescript`, `java`, `react`, `web` load only for matching files |
 | Hooks | `settings.json` → `hooks`, scripts in `~/.claude/scripts/` and `~/.claude/hooks/` | 8 events |
 
@@ -306,6 +306,7 @@ The other direction: `Ctrl-G` in a Claude prompt opens Neovim to write a long pr
 
 ## Change log
 
+- 2026-11-13: Skill list brought under Claude's listing budget (was 36.6k of 30k chars): 25 more commands `off` (epic-*, jira, loop-*, skill tooling, …) and 25 set to `name-only` (ecc-guide, save/resume-session, prp-*, hookify*, …).
 - 2026-11-13: Replaced the ECC plugin with a direct install of just what you need: 43 skills, 30 agents, 98 commands (35 off), stack-only rules. Skill listing went from 400+ entries to 123.
 - 2026-11-13 (superseded): Switched to a trimmed ECC (`ecc@ecc-local`): 116 skills, 22 agents and 18 commands for unused languages and domains removed; always-on cost ~48.1k → ~31.5k tokens.
 - 2026-11-13: First version, written from `settings.json`, `installed_plugins.json`, ECC 2.2.3's hook docs and `claude --help`.
