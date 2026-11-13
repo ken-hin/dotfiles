@@ -1,6 +1,6 @@
 # Zsh Reference
 
-Kenneth's shell as of 2026-11-13 (checked against `~/.zshrc`): Oh My Zsh with 11 plugins, plus fzf, zoxide, eza and the modern-dark-pro-capsule prompt, running in Ghostty.
+Kenneth's shell as of 2026-11-13 (checked against `~/.zshrc`): Oh My Zsh with 10 plugins, plus fzf, zoxide, eza and the modern-dark-pro-capsule prompt, running in Ghostty.
 Companion sheets: [NEOVIM.md](NEOVIM.md), [CLAUDE-CODE.md](CLAUDE-CODE.md).
 Each plugin has its own section covering what it does, every command or key it adds, and every setting you can change.
 
@@ -20,7 +20,6 @@ After editing `~/.zshrc`: `omz reload` (or `zload`, or open a new tab).
 3. [Keys at a glance](#keys-at-a-glance)
 4. [Your own aliases and functions](#your-own-aliases-and-functions)
 5. [Oh My Zsh plugins](#oh-my-zsh-plugins)
-    - [git](#git)
     - [zsh-autosuggestions](#zsh-autosuggestions)
     - [zsh-syntax-highlighting](#zsh-syntax-highlighting)
     - [zsh-interactive-cd](#zsh-interactive-cd)
@@ -57,7 +56,7 @@ None of these stop the shell from working, but they change how the plugins below
 | --- | --- |
 | `~/.zprofile` | PATH: Docker, JetBrains Toolbox, Homebrew, Python 3.13, `~/.local/bin` |
 | `~/.zshrc` | Oh My Zsh settings, the plugin list, theme settings, fzf, your aliases, bun, `dud`, zoxide |
-| `~/.oh-my-zsh/plugins/<name>/` | Code and README for each of your 11 plugins |
+| `~/.oh-my-zsh/plugins/<name>/` | Code and README for each of your 10 plugins |
 | `~/.oh-my-zsh/custom/themes/modern-dark-pro-capsule.zsh-theme` | The prompt theme |
 | `~/.config/znt/*.conf` | zsh-navigation-tools settings |
 | `~/.config/ghostty/config` | Terminal. `macos-option-as-alt = true` makes Option work as Alt for every key below |
@@ -114,6 +113,9 @@ Every key at the prompt and which plugin it comes from. Option works as Alt in G
 | `zfig` | Open `~/.zshrc` in Neovim |
 | `zload` | Reload `~/.zshrc` |
 | `nvfig` | Open your Neovim config folder in Neovim |
+| `g` | `git` |
+| `ga` | `git add` |
+| `gcam` | `git commit --all --message` (stage every tracked change and commit: `gcam "fix typo"`) |
 | `dots` | Go to `~/dotfiles` |
 | `dotfig` | Open `~/dotfiles` in Neovim |
 
@@ -128,379 +130,6 @@ dud -a ~/dev     # sort by name instead of size
 ## Oh My Zsh plugins
 
 In the order they load. All 11 live in `~/.oh-my-zsh/plugins/`.
-
-### git
-
-Adds 208 short aliases and 15 functions for git. Several aliases target your main branch (`gcm`, `gswm`, `grbm` and others): that's `main` if it exists, otherwise `master` or similar. A few target your develop branch (`gcd`, `gswd`, `grbd`): whichever of `dev`, `devel`, `develop` or `development` exists.
-
-#### Settings
-
-The plugin has no settings of its own. To change an alias, define your own version after OMZ. To get rid of one, put `unalias <name>` after OMZ.
-
-Four aliases (`gfa`, `gpf`, `gpsupf`, `gsta`) depend on your git version. The versions shown below are for git 2.30 or newer; `git --version` shows yours.
-
-#### Commands
-
-In the "Runs" column, `<fmt>` stands for `%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset`: short hash, branch and tag names, message, relative date ("3 days ago"), author. `<fmt-date>` is the same with the real date (`%ad`) instead.
-
-**Everyday**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `g` | Short for `git`: `g log`, `g stash` | `git` |
-| `gst` | What's changed, staged and untracked | `git status` |
-| `gss` | Same, one line per file | `git status --short` |
-| `gsb` | Short status plus branch and ahead/behind counts | `git status --short --branch` |
-| `gsnut` | Status without untracked files | `git status --untracked-files=no` |
-
-**Staging**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `ga` | Stage files: `ga file.py` | `git add` |
-| `gaa` | Stage everything: new, changed and deleted files | `git add --all` |
-| `gapa` | Go through changes hunk by hunk and pick what to stage | `git add --patch` |
-| `gau` | Stage changes to tracked files only (skips new files) | `git add --update` |
-| `gav` | Stage files and list each one added | `git add --verbose` |
-
-**Committing**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gc` | Commit; the editor shows the diff below the message | `git commit --verbose` |
-| `gcmsg` | Commit with a message: `gcmsg "fix login"` | `git commit --message` |
-| `gca` | Stage all tracked changes and commit (opens editor) | `git commit --verbose --all` |
-| `gcam` | Stage all tracked changes and commit with a message | `git commit --all --message` |
-| `gc!` | Rewrite the last commit (add staged changes, edit message) | `git commit --verbose --amend` |
-| `gca!` | Stage tracked changes into the last commit and edit its message | `git commit --verbose --all --amend` |
-| `gcn` | Commit without opening the editor | `git commit --verbose --no-edit` |
-| `gcn!` | Add staged changes to the last commit, keep its message | `git commit --verbose --no-edit --amend` |
-| `gcan!` | Stage tracked changes into the last commit, keep its message | `git commit --verbose --all --no-edit --amend` |
-| `gcann!` | Same as `gcan!`, and set the commit date to now | `git commit --verbose --all --date=now --no-edit --amend` |
-| `gcans!` | Same as `gcan!`, adding a Signed-off-by line | `git commit --verbose --all --signoff --no-edit --amend` |
-| `gcas` | Stage tracked changes and commit with Signed-off-by | `git commit --all --signoff` |
-| `gcasm` | Same, with a message | `git commit --all --signoff --message` |
-| `gcsm` | Commit with Signed-off-by and a message | `git commit --signoff --message` |
-| `gcs` | Commit with a GPG signature | `git commit --gpg-sign` |
-| `gcss` | GPG-signed commit with Signed-off-by | `git commit --gpg-sign --signoff` |
-| `gcssm` | Same, with a message | `git commit --gpg-sign --signoff --message` |
-| `gcfu` | Make a `fixup!` commit for an older commit: `gcfu <hash>` (squash it later with `grbmia`) | `git commit --fixup` |
-
-**Branches**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gb` | List local branches, or create one: `gb name` | `git branch` |
-| `gba` | List local and remote branches | `git branch --all` |
-| `gbr` | List remote branches | `git branch --remotes` |
-| `gbd` | Delete a branch that's been merged | `git branch --delete` |
-| `gbD` | Delete a branch even if it isn't merged | `git branch --delete --force` |
-| `gbm` | Rename a branch: `gbm old new` | `git branch --move` |
-| `gbnm` | List branches not merged into this one | `git branch --no-merged` |
-| `gbg` | List branches whose remote branch was deleted | `LANG=C git branch -vv \| grep ": gone\]"` |
-| `gbgd` | Delete those branches (only if merged) | `LANG=C git branch --no-color -vv \| grep ": gone\]" \| cut -c 3- \| awk '{print $1}' \| xargs git branch -d` |
-| `gbgD` | Delete those branches, merged or not | `LANG=C git branch --no-color -vv \| grep ": gone\]" \| cut -c 3- \| awk '{print $1}' \| xargs git branch -D` |
-| `gbda` (function) | Delete every local branch already merged (keeps main and develop) | `git branch --merged`, then `git branch --delete` on each |
-| `gbds` (function) | Delete local branches that were squash-merged into main (slow with many branches) | Checks each branch with `git cherry`, then `git branch -D` |
-| `ggsup` | Make this branch track `origin/<same name>` | `git branch --set-upstream-to=origin/$(git_current_branch)` |
-| `gbcopy` (function) | Copy the current branch name to the clipboard | `git_current_branch \| clipcopy` |
-| `grename` (function) | Rename a branch here and on origin: `grename old new` | `git branch -m`, delete old on origin, push new with upstream |
-
-**Switching**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gsw` | Switch to a branch | `git switch` |
-| `gswc` | Create a branch and switch to it | `git switch --create` |
-| `gswm` | Switch to main (or master) | `git switch $(git_main_branch)` |
-| `gswd` | Switch to the develop branch | `git switch $(git_develop_branch)` |
-| `gco` | Check out a branch, commit or file | `git checkout` |
-| `gcb` | Create a branch and check it out | `git checkout -b` |
-| `gcB` | Create a branch here, or reset it to here if it exists | `git checkout -B` |
-| `gcm` | Check out main (or master) | `git checkout $(git_main_branch)` |
-| `gcd` | Check out the develop branch | `git checkout $(git_develop_branch)` |
-| `gcor` | Check out and update submodules to match | `git checkout --recurse-submodules` |
-
-**Diffs**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gd` | Changes not staged yet | `git diff` |
-| `gds` | Changes that are staged | `git diff --staged` |
-| `gdca` | Same as `gds` | `git diff --cached` |
-| `gdw` | Unstaged changes, word by word instead of line by line | `git diff --word-diff` |
-| `gdcw` | Staged changes, word by word | `git diff --cached --word-diff` |
-| `gdup` | Difference from the upstream branch (what a push or pull would change) | `git diff @{upstream}` |
-| `gdt` | List the files a commit changed: `gdt <hash>` | `git diff-tree --no-commit-id --name-only -r` |
-| `gdv` (function) | Diff ignoring whitespace, opened read-only in vim | `git diff -w "$@" \| view -` |
-| `gdnolock` (function) | Diff without lock files (`package-lock.json`, `*.lock`) | `git diff "$@" ":(exclude)package-lock.json" ":(exclude)*.lock"` |
-
-**Log and history**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `glo` | One line per commit | `git log --oneline --decorate` |
-| `glog` | One line per commit with the branch graph | `git log --oneline --decorate --graph` |
-| `gloga` | Same, all branches | `git log --oneline --decorate --graph --all` |
-| `glol` | Graph with hash, branch/tag names, message, relative date, author | `git log --graph --pretty="<fmt>"` |
-| `glola` | Same, all branches | `git log --graph --pretty="<fmt>" --all` |
-| `glols` | Same, with files changed per commit | `git log --graph --pretty="<fmt>" --stat` |
-| `glolm` | Same, for main only | `git log $(git_main_branch) --graph --pretty="<fmt>"` |
-| `glod` | Graph with full dates | `git log --graph --pretty="<fmt-date>"` |
-| `glods` | Graph with short dates | `git log --graph --pretty="<fmt-date>" --date=short` |
-| `glom` | Commits on this branch that aren't on main yet | `git log --oneline --decorate --color $(git_main_branch)..` |
-| `glg` | Log with the files each commit changed | `git log --stat` |
-| `glgp` | Log with each commit's full diff | `git log --stat --patch` |
-| `glgg` | Full log with the branch graph | `git log --graph` |
-| `glgga` | Graph with branch names, all branches | `git log --graph --decorate --all` |
-| `glgm` | Graph, last 10 commits | `git log --graph --max-count=10` |
-| `glp` | Log in a built-in format: `glp oneline`, `glp short`, `glp full` | `git log --pretty=<format>` |
-| `gwch` | Log with diffs and raw file changes, for reviewing in detail | `git log --patch --abbrev-commit --pretty=medium --raw` |
-| `gsh` | Show a commit (default: the last one) | `git show` |
-| `gshs` | A commit's file list with +/- counts | `git show --stat` |
-| `gsps` | A commit's short summary and GPG signature | `git show --pretty=short --show-signature` |
-| `gcount` | Commits per author, most first | `git shortlog --summary --numbered` |
-| `grf` | Reflog: every place HEAD has been, for undoing mistakes | `git reflog` |
-| `gbl` | Who last changed each line, ignoring whitespace changes | `git blame -w` |
-
-**Fetching and pulling**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gf` | Download new commits without changing your files | `git fetch` |
-| `gfa` | Fetch every remote and tag, drop deleted remote branches (10 at a time) | `git fetch --all --tags --prune --jobs=10` |
-| `gfo` | Fetch origin | `git fetch origin` |
-| `gl` | Pull (fetch and merge) | `git pull` |
-| `gpr` | Pull, rebasing your commits on top instead of merging | `git pull --rebase` |
-| `gprv` | Same, verbose | `git pull --rebase -v` |
-| `gpra` | Pull with rebase, stashing and restoring uncommitted changes | `git pull --rebase --autostash` |
-| `gprav` | Same, verbose | `git pull --rebase --autostash -v` |
-| `gprom` | Rebase this branch onto origin's main | `git pull --rebase origin $(git_main_branch)` |
-| `gpromi` | Same, interactive | `git pull --rebase=interactive origin $(git_main_branch)` |
-| `gprum` | Rebase this branch onto upstream's main | `git pull --rebase upstream $(git_main_branch)` |
-| `gprumi` | Same, interactive | `git pull --rebase=interactive upstream $(git_main_branch)` |
-| `ggpull` | Pull this branch from origin | `git pull origin "$(git_current_branch)"` |
-| `ggl` (function) | Pull this branch (or the one you name) from origin | `git pull origin <current branch>` |
-| `ggu` (function) | Pull with rebase, this branch (or the one you name) from origin | `git pull --rebase origin <current branch>` |
-| `ggpur` | Same as `ggu` | `ggu` |
-| `gluc` | Pull this branch from upstream | `git pull upstream $(git_current_branch)` |
-| `glum` | Pull main from upstream | `git pull upstream $(git_main_branch)` |
-
-**Pushing**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gp` | Push | `git push` |
-| `gpd` | Show what a push would do, without pushing | `git push --dry-run` |
-| `gpv` | Push, verbose | `git push --verbose` |
-| `gpsup` | First push of a new branch; sets origin as its upstream | `git push --set-upstream origin $(git_current_branch)` |
-| `gpsupf` | Same, as a safe force push | `git push --set-upstream origin $(git_current_branch) --force-with-lease --force-if-includes` |
-| `gpf` | Safe force push: refuses if someone else pushed in the meantime | `git push --force-with-lease --force-if-includes` |
-| `gpf!` | Plain force push: overwrites the remote branch | `git push --force` |
-| `ggpush` | Push this branch to origin | `git push origin "$(git_current_branch)"` |
-| `ggp` (function) | Push this branch (or the one you name) to origin | `git push origin <current branch>` |
-| `ggf` (function) | Force-push this branch (or the one you name) to origin | `git push --force origin <current branch>` |
-| `ggfl` (function) | Safe force push of this branch to origin | `git push --force-with-lease origin <current branch>` |
-| `ggpnp` (function) | Pull then push this branch: sync with origin in one step | `ggl && ggp` |
-| `gpoat` | Push every branch and every tag to origin | `git push origin --all && git push origin --tags` |
-| `gpod` | Delete a branch on origin: `gpod name` | `git push origin --delete` |
-| `gpu` | Push to upstream | `git push upstream` |
-
-**Merging**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gm` | Merge a branch into this one | `git merge` |
-| `gma` | Give up on a merge in progress | `git merge --abort` |
-| `gmc` | Finish a merge after fixing conflicts | `git merge --continue` |
-| `gms` | Bring a branch's changes in as one staged change (you commit it) | `git merge --squash` |
-| `gmff` | Merge only if no merge commit is needed | `git merge --ff-only` |
-| `gmom` | Merge origin's main into this branch | `git merge origin/$(git_main_branch)` |
-| `gmum` | Merge upstream's main into this branch | `git merge upstream/$(git_main_branch)` |
-| `gmtl` | Open the merge tool for each conflict | `git mergetool --no-prompt` |
-| `gmtlvim` | Resolve conflicts in vimdiff | `git mergetool --no-prompt --tool=vimdiff` |
-
-**Rebasing**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `grb` | Replay this branch's commits on top of another branch | `git rebase` |
-| `grbi` | Interactive rebase: reorder, squash, reword or drop commits | `git rebase --interactive` |
-| `grbc` | Continue after fixing conflicts | `git rebase --continue` |
-| `grba` | Give up and go back to how things were | `git rebase --abort` |
-| `grbs` | Skip the commit that's conflicting | `git rebase --skip` |
-| `grbo` | Move commits onto a new base: `grbo <new> <old>` | `git rebase --onto` |
-| `grbm` | Rebase onto main | `git rebase $(git_main_branch)` |
-| `grbd` | Rebase onto develop | `git rebase $(git_develop_branch)` |
-| `grbom` | Rebase onto origin's main | `git rebase origin/$(git_main_branch)` |
-| `grbum` | Rebase onto upstream's main | `git rebase upstream/$(git_main_branch)` |
-| `grbmi` | Interactive rebase onto main | `git rebase $(git_main_branch) --interactive` |
-| `grbmia` | Same, and fold `fixup!` commits in automatically | `git rebase $(git_main_branch) --interactive --autosquash` |
-
-**Cherry-pick and revert**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gcp` | Copy a commit from another branch onto this one | `git cherry-pick` |
-| `gcpa` | Give up on a cherry-pick | `git cherry-pick --abort` |
-| `gcpc` | Continue a cherry-pick after fixing conflicts | `git cherry-pick --continue` |
-| `grev` | Make a new commit that undoes an old one | `git revert` |
-| `greva` | Give up on a revert | `git revert --abort` |
-| `grevc` | Continue a revert after fixing conflicts | `git revert --continue` |
-
-**Undoing and cleaning up**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `grs` | Throw away unstaged changes to a file | `git restore` |
-| `grst` | Unstage a file (your changes stay) | `git restore --staged` |
-| `grss` | Restore a file from a commit: `grss <hash> file` | `git restore --source` |
-| `grh` | Unstage everything, or move the branch: `grh <hash>` | `git reset` |
-| `gru` | Unstage the files you name | `git reset --` |
-| `grhs` | Undo commits but keep their changes staged: `grhs HEAD~1` | `git reset --soft` |
-| `grhk` | Move the branch, keeping local changes (stops if they'd conflict) | `git reset --keep` |
-| `grhh` | Throw away all uncommitted changes. Can't be undone | `git reset --hard` |
-| `groh` | Make this branch exactly match origin's copy. Can't be undone | `git reset origin/$(git_current_branch) --hard` |
-| `gwipe` | Hard reset and delete untracked files (keeps ignored ones) | `git reset --hard && git clean --force -df` |
-| `gpristine` | Hard reset and delete untracked and ignored files (`.env`, builds) | `git reset --hard && git clean --force -dfx` |
-| `gclean` | Pick untracked files and folders to delete, interactively | `git clean --interactive -d` |
-| `grm` | Delete a file and stage the deletion | `git rm` |
-| `grmc` | Stop tracking a file but keep it on disk | `git rm --cached` |
-
-**Stashing**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gsta` | Stash uncommitted changes | `git stash push` |
-| `gstu` | Stash, including untracked files | `gsta --include-untracked` |
-| `gstall` | Stash everything, including ignored files | `git stash --all` |
-| `gstl` | List stashes | `git stash list` |
-| `gstp` | Restore the latest stash and remove it from the list | `git stash pop` |
-| `gstaa` | Restore a stash but keep it in the list | `git stash apply` |
-| `gsts` | Show what a stash contains | `git stash show --patch` |
-| `gstd` | Delete a stash | `git stash drop` |
-| `gstc` | Delete all stashes | `git stash clear` |
-
-**Remotes**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gr` | List remotes | `git remote` |
-| `grv` | List remotes with their URLs | `git remote --verbose` |
-| `gra` | Add a remote: `gra upstream <url>` | `git remote add` |
-| `grrm` | Remove a remote | `git remote remove` |
-| `grmv` | Rename a remote | `git remote rename` |
-| `grset` | Change a remote's URL | `git remote set-url` |
-| `grup` | Fetch every remote | `git remote update` |
-
-**Cloning and repo info**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gcl` | Clone, including submodules | `git clone --recurse-submodules` |
-| `gclf` | Fast clone: file contents download only when needed | `git clone --recursive --shallow-submodules --filter=blob:none --also-filter-submodules` |
-| `gccd` (function) | Clone, then cd into the new folder | `git clone --recurse-submodules "$@"`, then `cd` |
-| `grt` | cd to the top folder of the repo | `cd "$(git rev-parse --show-toplevel \|\| echo .)"` |
-| `gcf` | Show all git config values | `git config --list` |
-| `ghh` | Git help: `ghh rebase` | `git help` |
-
-**Tags**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gta` | Make an annotated tag: `gta v1.0 -m "release"` | `git tag --annotate` |
-| `gts` | Make a signed tag | `git tag --sign` |
-| `gtv` | List tags in version order | `git tag \| sort -V` |
-| `gtl` | List tags starting with a prefix, newest first, with messages: `gtl v1` | `git tag --sort=-v:refname -n --list "<prefix>*"` |
-| `gdct` | Show the most recent tag | `git describe --tags $(git rev-list --tags --max-count=1)` |
-
-**Worktrees**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gwt` | Worktree command | `git worktree` |
-| `gwta` | Check out another branch in a second folder: `gwta ../hotfix hotfix` | `git worktree add` |
-| `gwtls` | List worktrees | `git worktree list` |
-| `gwtmv` | Move a worktree | `git worktree move` |
-| `gwtrm` | Remove a worktree | `git worktree remove` |
-
-**Bisect (find the commit that broke something)**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gbss` | Start | `git bisect start` |
-| `gbsb` | This commit is broken | `git bisect bad` |
-| `gbsg` | This commit works | `git bisect good` |
-| `gbsn` | Same as bad, using new/old wording | `git bisect new` |
-| `gbso` | Same as good, using new/old wording | `git bisect old` |
-| `gbsr` | Stop and go back to where you started | `git bisect reset` |
-| `gbs` | Bisect command | `git bisect` |
-
-**Patches**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gap` | Apply a patch file to your working files | `git apply` |
-| `gapt` | Apply a patch, merging if it doesn't fit cleanly | `git apply --3way` |
-| `gam` | Apply emailed patches as commits | `git am` |
-| `gamc` | Continue after fixing a patch | `git am --continue` |
-| `gama` | Give up | `git am --abort` |
-| `gams` | Skip this patch | `git am --skip` |
-| `gamscp` | Show the patch being applied | `git am --show-current-patch` |
-
-**Submodules**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gsi` | Set up submodules after cloning | `git submodule init` |
-| `gsu` | Update submodules to the recorded commits | `git submodule update` |
-| `gsuri` | Set up and update all submodules, nested ones too | `git submodule update --recursive --init` |
-
-**Index tricks**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gignore` | Tell git to ignore local changes to a tracked file | `git update-index --assume-unchanged` |
-| `gunignore` | Undo that | `git update-index --no-assume-unchanged` |
-| `gignored` | List files marked that way | `git ls-files -v \| grep "^[[:lower:]]"` |
-| `gfg` | Find tracked files whose path contains text: `gfg config` | `git ls-files \| grep` |
-
-**Work in progress**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gwip` | Commit everything as a throwaway `--wip--` commit (skips hooks) | `git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"` |
-| `gunwip` | Undo the last `--wip--` commit, keeping the changes | `git rev-list --max-count=1 --format="%s" HEAD \| grep -q "\--wip--" && git reset HEAD~1` |
-| `gunwipall` (function) | Undo all the recent `--wip--` commits in a row | `git reset` to the newest commit that isn't `--wip--` |
-| `work_in_progress` (function) | Prints `WIP!!` if the last commit is a `--wip--` commit | `git log -n 1 \| grep -q -- --wip--` |
-
-**Git GUI (hidden: `.zshrc` runs `unalias gg gga gk gke` because Apple's git has no `git gui` or `gitk`. `brew install git-gui` and delete that line to get them back)**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gg` | Commit tool window | `git gui citool` |
-| `gga` | Commit tool, amending the last commit | `git gui citool --amend` |
-| `gk` | History browser, all branches | `gitk --all --branches &!` |
-| `gke` | History browser including reflog entries | `gitk --all $(git log --walk-reflogs --pretty=%h) &!` |
-
-**Subversion bridge**
-
-| Alias | What it's for | Runs |
-| --- | --- | --- |
-| `gsd` | Send commits to an SVN server | `git svn dcommit` |
-| `gsr` | Rebase onto the SVN server's latest | `git svn rebase` |
-| `git-svn-dcommit-push` | Send to SVN, then push main to GitHub's svntrunk | `git svn dcommit && git push github $(git_main_branch):svntrunk` |
-
-**Helper functions** (used inside the aliases above; you can call them too, e.g. `echo $(git_main_branch)`)
-
-| Function | Returns |
-| --- | --- |
-| `git_current_branch` | Name of the branch you're on |
-| `git_main_branch` | `main` if it exists, else trunk, mainline, default, stable or master (checks local, then origin and upstream) |
-| `git_develop_branch` | `dev`, `devel`, `develop` or `development`, whichever exists |
-| `git_current_user_name` | Your `user.name` |
-| `git_current_user_email` | Your `user.email` |
-| `current_branch` | Old name for `git_current_branch`; prints a deprecation warning |
 
 ### zsh-autosuggestions
 
@@ -1141,6 +770,8 @@ Searched top to bottom. `which -a <command>` shows every copy of a command and w
 | lazygit | Terminal git UI (also `<leader>gg` in Neovim) | `lazygit` in a repo |
 
 ## Change log
+
+- 2026-11-13: Removed the Oh My Zsh `git` plugin (201 aliases, of which only `g`, `ga`, `gcam` appeared in history). Those three are now your own aliases in `.zshrc`; git's tab completion is built into zsh and unaffected. Shell aliases: 318 → 116.
 
 - 2026-11-13: Removed stale aliases `cddev` (`~/Developer` is gone), `testdb` and `gendocs` (Senior Design). Hid the git plugin's `gg`, `gga`, `gk`, `gke` with `unalias`. Listing aliases are now `lls` (tree, 1 level) and `llsd` (2 levels, total sizes).
 

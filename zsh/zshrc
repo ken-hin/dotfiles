@@ -74,7 +74,6 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
   zsh-autosuggestions
   zsh-interactive-cd
   zsh-navigation-tools
@@ -151,9 +150,10 @@ alias dotfig='nvim ~/dotfiles'
 # -----  NVim Config -----
 alias nvfig='nvim ~/.config/nvim'
 
-# ----- Hide git-plugin aliases that can't work here -----
-# gg/gga need `git gui` and gk/gke need `gitk`; Apple's git ships neither.
-unalias gg gga gk gke 2>/dev/null
+# ----- Git (the only shortcuts you used from the old Oh My Zsh git plugin) -----
+alias g='git'
+alias ga='git add'
+alias gcam='git commit --all --message'
 # ======================= End Custom Aliases =======================
 
 # bun completions
