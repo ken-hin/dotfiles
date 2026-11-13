@@ -1,0 +1,26 @@
+# Font: Ghostty bundles JetBrains Mono Nerd Font, so icons just work.
+font-size = 16
+
+# Theme — match nvim's tokyonight.
+# List all available themes with: ghostty +list-themes
+theme = tokyonight
+
+# macOS-specific
+macos-titlebar-style = tabs
+
+# Lets Option act as Meta in nvim if you want <M-...> chords
+macos-option-as-alt = true
+
+# Window
+window-padding-x = 8
+window-padding-y = 0
+window-save-state = always
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Behavior
+copy-on-select = clipboard
+confirm-close-surface = false
+mouse-hide-while-typing = true

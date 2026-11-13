@@ -1,0 +1,247 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="modern-dark-pro-capsule"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change the frequency the auto-updater is run (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line to set how old an update must be before it's applied, manually or via the auto-updater (in days).
+# zstyle ':omz:update' cooldown 10
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+eval "$(zoxide init zsh)"
+
+ZSH_THEME="modern-dark-pro-capsule"
+export MODERN_DARK_PRO_VARIANT="night"
+export MODERN_DARK_PRO_PILL_STYLE="round"
+export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
+export MODERN_DARK_PRO_PROMPT_LAYOUT="classic"
+export MODERN_DARK_PRO_NERD_FONTS=true
+export MODERN_DARK_PRO_SHOW_CLOCK=true
+export MODERN_DARK_PRO_CLOCK_POSITION="top"
+export MODERN_DARK_PRO_CLICKABLE_PATH=true
+export MODERN_DARK_PRO_CLICKABLE_GIT=true
+export MODERN_DARK_PRO_PATH_STYLE="limit"
+
+# Depth level (used only if style is set to 'limit') (default: 3)
+export MODERN_DARK_PRO_PATH_DEPTH=6
+
+ZSH_THEME="modern-dark-pro-capsule"
+export MODERN_DARK_PRO_VARIANT="monokai"
+export MODERN_DARK_PRO_PILL_STYLE="round"
+export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
+export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"
+export MODERN_DARK_PRO_NERD_FONTS=false
+export MODERN_DARK_PRO_SHOW_CLOCK=true
+export MODERN_DARK_PRO_CLOCK_POSITION="rprompt"
+export MODERN_DARK_PRO_CLICKABLE_PATH=true
+export MODERN_DARK_PRO_CLICKABLE_GIT=true
+
+ZSH_THEME="modern-dark-pro-capsule"
+export MODERN_DARK_PRO_VARIANT="night"
+export MODERN_DARK_PRO_PILL_STYLE="round"
+export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
+export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"
+export MODERN_DARK_PRO_NERD_FONTS=true
+export MODERN_DARK_PRO_SHOW_CLOCK=true
+export MODERN_DARK_PRO_CLOCK_POSITION="top"
+export MODERN_DARK_PRO_CLICKABLE_PATH=true
+export MODERN_DARK_PRO_CLICKABLE_GIT=true
+
+zstyle ':omz:alpha:lib:git' async-prompt no
+# Modern Dark Pro Capsule Theme Config
+ZSH_THEME="modern-dark-pro-capsule"
+export MODERN_DARK_PRO_VARIANT="night"
+export MODERN_DARK_PRO_PILL_STYLE="bracket"
+export MODERN_DARK_PRO_PILL_COLOR_STYLE="solid"
+export MODERN_DARK_PRO_PROMPT_LAYOUT="two-line"
+export MODERN_DARK_PRO_NERD_FONTS=true
+export MODERN_DARK_PRO_SHOW_CLOCK=true
+export MODERN_DARK_PRO_CLOCK_POSITION="top"
+export MODERN_DARK_PRO_CLICKABLE_PATH=true
+export MODERN_DARK_PRO_CLICKABLE_GIT=true
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Flutter
+export PATH="$PATH:/Users/kennethinman/Development/flutter/bin"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/kennethinman/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+# ========================= Custom Aliases =========================
+
+# ------- Utility -------
+alias lls='ls -A -l -t -y -G -h -T -p -n -F -o -D "%m/%d/%Y %H:%M:%S" '
+
+# ------ Traversal ------
+alias cdd='cd && cd Desktop'
+alias cddev='cd ~/Developer'
+alias cds='cd && cd Desktop/School && lls'
+alias cdbrew='cd && cd ../../opt/homebrew'
+
+# -----  zsh Config -----
+alias zfig='nvim ~/.zshrc'
+alias zload='source ~/.zshrc'
+
+# -----  NVim Config -----
+alias nvfig='nvim ~/.config/nvim/init.vim'
+
+#--------------- Senior Design Shortcuts ---------------
+alias testdb='docker exec -it postgres psql -U test -d testdb'
+alias gendocs='./mvnw javadoc:javadoc -Dshow=package'
+# ======================= End Custom Aliases =======================
+
+export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
+export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin
+
+export PATH=$PATH:/Users/kennethinman/.local/bin
+
+# bun completions
+[ -s "/Users/kennethinman/.bun/_bun" ] && source "/Users/kennethinman/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ========================= Custom Funtions =========================
+dud() {
+    local sort_cmd="sort -hr"       # default: biggest first
+
+    if [[ "$1" == "-a" ]]; then
+        sort_cmd="sort -t$'\t' -k2" # alphabetical by path
+        shift
+    fi
+    # Use the first argument if given, otherwise fall back to the
+    # current directory. "local" keeps the variable inside the function
+    # so it doesn't leak into your shell.
+    local target="${1:-.}"
+
+    # Bail early if the path doesn't exist. -e is true for files and
+    # directories alike. >&2 sends the message to stderr, which keeps it
+    # out of any pipe you might wrap around this. return 1 signals failure.
+    if [[ ! -e "$target" ]]; then
+        echo "dus: no such file or directory: $target" >&2
+        return 1
+    fi
+
+    # -h  human-readable sizes (K/M/G instead of raw blocks)
+    # -d 1  only go one level deep, so you see immediate children
+    # 2>/dev/null  discards permission-denied warnings
+    # sed '$d'  deletes the last line, which is du's summary for the target itself
+    # eval "$sort_cmd" sorts based on flag:
+    #   [none] : sorts based on size (largest to smallest)
+    #   -a     : sorts alphabeticaly
+    du -h -d 1 "$target" 2>/dev/null | sed '$d' | eval "$sort_cmd"
+
+    echo "--------"
+
+    # -s  summarize: just one total line for the target, no children
+    # awk reformats it so the path gets a "(total)" label. $1 is the
+    # size column, $2 is the path. \t keeps it aligned with du's output.
+    du -sh "$target" 2>/dev/null | awk '{print $1"\t"$2" (total)"}'
+}
+# ========================= End Custom Funtions  =========================

@@ -1,0 +1,83 @@
+# Flutter
+export PATH="$PATH:/Users/kennethinman/Development/flutter/bin"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/kennethinman/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+# ========================= Custom Aliases =========================
+
+# ------- Utility -------
+alias lls='ls -A -l -t -y -G -h -T -p -n -F -o -D "%m/%d/%Y %H:%M:%S" '
+
+# ------ Traversal ------
+alias cdd='cd && cd Desktop && lls'
+alias cds='cd && cd Desktop/School && lls'
+alias cdbrew='cd && cd ../../opt/homebrew'
+
+# -----  zsh Config -----
+alias zfig='nvim ~/.zshrc'
+alias zload='source ~/.zshrc'
+
+# -----  NVim Config -----
+alias nvfig='nvim ~/.config/nvim/init.vim'
+
+# -----  Lab Machine Shortcuts -----
+alias ctesla='ssh khinman@tesla2.eecs.utk.edu'
+alias ttesla='sftp khinman@tesla2.eecs.utk.edu'
+alias chydra='ssh khinman@hydra2.eecs.utk.edu' 
+alias thydra='sftp khinman@hydra2.eecs.utk.edu'
+
+# ======================= End Custom Aliases =======================
+
+export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
+export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin
+
+export PATH=$PATH:/Users/kennethinman/.local/bin
+
+# bun completions
+[ -s "/Users/kennethinman/.bun/_bun" ] && source "/Users/kennethinman/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ========================= Custom Funtions =========================
+dud() {
+    local sort_cmd="sort -hr"       # default: biggest first
+
+    if [[ "$1" == "-a" ]]; then
+        sort_cmd="sort -t$'\t' -k2" # alphabetical by path
+        shift
+    fi
+    # Use the first argument if given, otherwise fall back to the
+    # current directory. "local" keeps the variable inside the function
+    # so it doesn't leak into your shell.
+    local target="${1:-.}"
+
+    # Bail early if the path doesn't exist. -e is true for files and
+    # directories alike. >&2 sends the message to stderr, which keeps it
+    # out of any pipe you might wrap around this. return 1 signals failure.
+    if [[ ! -e "$target" ]]; then
+        echo "dus: no such file or directory: $target" >&2
+        return 1
+    fi
+
+    # -h  human-readable sizes (K/M/G instead of raw blocks)
+    # -d 1  only go one level deep, so you see immediate children
+    # 2>/dev/null  discards permission-denied warnings
+    # sed '$d'  deletes the last line, which is du's summary for the target itself
+    # eval "$sort_cmd" sorts based on flag:
+    #   [none] : sorts based on size (largest to smallest)
+    #   -a     : sorts alphabeticaly 
+    du -h -d 1 "$target" 2>/dev/null | sed '$d' | eval "$sort_cmd"
+
+    echo "--------"
+
+    # -s  summarize: just one total line for the target, no children
+    # awk reformats it so the path gets a "(total)" label. $1 is the
+    # size column, $2 is the path. \t keeps it aligned with du's output.
+    du -sh "$target" 2>/dev/null | awk '{print $1"\t"$2" (total)"}'
+}
+# ========================= End Custom Funtions  =========================

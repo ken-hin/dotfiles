@@ -1,0 +1,16 @@
+# Docker Desktop CLI tools
+export PATH="$PATH:$HOME/.docker/bin"
+
+# JetBrains Toolbox IDE launchers
+export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Python 3.13 from the python.org installer. Added after Homebrew so it
+# lands in front of it: `python3` is this install, not Homebrew's.
+PATH="/Library/Frameworks/Python.framework/Versions/3.13/bin:${PATH}"
+export PATH
+
+# ~/.local/bin: pipx tools, uv, the claude CLI
+export PATH="$PATH:$HOME/.local/bin"
