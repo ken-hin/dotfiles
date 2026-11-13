@@ -48,7 +48,6 @@ None of these stop the shell from working, but they change how the plugins below
 | --- | --- | --- |
 | dirhistory owns Option-B, Option-F and Option-arrows | Those keys no longer move by word. They wipe what you typed and change folder | See [dirhistory](#dirhistory) |
 | zsh-navigation-tools binds Ctrl-R, then fzf rebinds it | Ctrl-R is fzf's history search. ZNT's is `nhistory` | Nothing to do unless you prefer ZNT's |
-| `gg`, `gga`, `gk`, `gke` (git plugin) | They fail: Apple's git doesn't include `git gui` or `gitk` | `brew install git-gui`, or ignore them |
 
 ## Config files and load order
 
@@ -107,19 +106,16 @@ Every key at the prompt and which plugin it comes from. Option works as Alt in G
 
 | Alias | What it does |
 | --- | --- |
-| `lls` | `eza -l -a -h --icons=always`: long listing of everything (dotfiles too) with icons and a column header row, sorted by name |
-| `dlls` | Like `lls`, plus the modified date and `--total-size` (folders show the size of everything inside them; slower on big folders) |
-| `llst` | `eza -T --level=1`: tree view one level deep, long format with icons |
-| `dllst` | Tree two levels deep with total folder sizes |
+| `lls` | `eza -T --level=1 -a -l -h -m --icons=always`: everything here (dotfiles too) as a one-level tree, long format with icons, modified dates and a header row |
+| `llsd` | Same, two levels deep, with `--total-size` (folders show the size of everything inside them; slower on big folders) |
 | `cdd` | Go to Desktop |
-| `cddev` | Go to `~/Developer` (most of your code lives in `~/dev`; use `z dev` for that) |
 | `cds` | Go to `Desktop/School` and run `lls` |
 | `cdbrew` | Go to `/opt/homebrew` |
 | `zfig` | Open `~/.zshrc` in Neovim |
 | `zload` | Reload `~/.zshrc` |
 | `nvfig` | Open your Neovim config folder in Neovim |
-| `testdb` | `psql` into the `postgres` Docker container as user `test`, database `testdb` |
-| `gendocs` | Build Javadoc with `./mvnw javadoc:javadoc` (run from the Maven project root) |
+| `dots` | Go to `~/dotfiles` |
+| `dotfig` | Open `~/dotfiles` in Neovim |
 
 `dud` shows disk usage one level deep, biggest first, then a total:
 
@@ -478,7 +474,7 @@ In the "Runs" column, `<fmt>` stands for `%Cred%h%Creset -%C(auto)%d%Creset %s %
 | `gunwipall` (function) | Undo all the recent `--wip--` commits in a row | `git reset` to the newest commit that isn't `--wip--` |
 | `work_in_progress` (function) | Prints `WIP!!` if the last commit is a `--wip--` commit | `git log -n 1 \| grep -q -- --wip--` |
 
-**Git GUI (needs gitk / git gui, which you don't have)**
+**Git GUI (hidden: `.zshrc` runs `unalias gg gga gk gke` because Apple's git has no `git gui` or `gitk`. `brew install git-gui` and delete that line to get them back)**
 
 | Alias | What it's for | Runs |
 | --- | --- | --- |
@@ -1134,17 +1130,19 @@ Searched top to bottom. `which -a <command>` shows every copy of a command and w
 
 | Tool | What it's for | Commands to remember |
 | --- | --- | --- |
-| eza (0.23) | Modern `ls` behind `lls`, `dlls`, `llst`, `dllst`. Note `-h` means header row, not human sizes (sizes are human by default) | `eza -l`, `eza -T -L 2` tree, `eza -l -s modified` sort by date (`-r` reverses), `eza --git -l` git status column |
+| eza (0.23) | Modern `ls` behind `lls` and `llsd`. Note `-h` means header row, not human sizes (sizes are human by default) | `eza -l`, `eza -T -L 2` tree, `eza -l -s modified` sort by date (`-r` reverses), `eza --git -l` git status column |
 | ripgrep (`rg`) | Fast text search (also powers grep in Neovim) | `rg "text"`, `rg -i` ignore case, `rg -l` file names only, `rg -t py foo` Python files only |
 | fd | Fast file finder (also powers file search in Neovim) | `fd name`, `fd -e lua` by extension, `fd -H` include hidden |
 | trash | Moves files to the macOS Trash (built into macOS) | `trash file` instead of `rm file` |
-| Docker | Containers (`testdb` and the docker-compose plugin use it) | `docker ps`, `docker logs -f <name>` |
+| Docker | Containers (the docker-compose plugin uses it) | `docker ps`, `docker logs -f <name>` |
 | uv | Python projects and virtualenvs | `uv venv`, `uv add <pkg>`, `uv run script.py` |
 | bun | JavaScript runtime and package manager | `bun install`, `bun run dev`, `bunx <tool>` |
 | claude | Claude Code CLI (2.1.x) | `claude`, `claude -c`, `claude -r`. Full sheet: [CLAUDE-CODE.md](CLAUDE-CODE.md) |
 | lazygit | Terminal git UI (also `<leader>gg` in Neovim) | `lazygit` in a repo |
 
 ## Change log
+
+- 2026-11-13: Removed stale aliases `cddev` (`~/Developer` is gone), `testdb` and `gendocs` (Senior Design). Hid the git plugin's `gg`, `gga`, `gk`, `gke` with `unalias`. Listing aliases are now `lls` (tree, 1 level) and `llsd` (2 levels, total sizes).
 
 - 2026-11-13: `.zshrc` cleanup: one theme block instead of three (same values; clock stays on the right), `zsh-syntax-highlighting` moved to the end of `plugins=(...)`, removed the no-op `async-prompt` zstyle. Installed lazygit.
 

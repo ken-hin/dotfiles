@@ -132,12 +132,11 @@ source <(fzf --zsh)
 # ------- Listing Utilities -------
 #alias lls='ls -A -l -t -y -G -h -T -p -n -F -o -D "%m/%d/%Y %H:%M:%S" '
 alias lls='eza -T --level=1 -a -l -h -m --icons=always'
-alias dlls='eza -T --level=2 -a -l -h -m  --total-size --icons=always'
+alias llsd='eza -T --level=2 -a -l -h -m  --total-size --icons=always'
 
 
 # ------ Traversal ------
 alias cdd='cd && cd Desktop'
-alias cddev='cd ~/Developer'
 alias cds='cd && cd Desktop/School && lls'
 alias cdbrew='cd && cd ../../opt/homebrew'
 
@@ -152,9 +151,9 @@ alias dotfig='nvim ~/dotfiles'
 # -----  NVim Config -----
 alias nvfig='nvim ~/.config/nvim'
 
-#--------------- Senior Design Shortcuts ---------------
-alias testdb='docker exec -it postgres psql -U test -d testdb'
-alias gendocs='./mvnw javadoc:javadoc -Dshow=package'
+# ----- Hide git-plugin aliases that can't work here -----
+# gg/gga need `git gui` and gk/gke need `gitk`; Apple's git ships neither.
+unalias gg gga gk gke 2>/dev/null
 # ======================= End Custom Aliases =======================
 
 # bun completions
