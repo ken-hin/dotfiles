@@ -35,6 +35,7 @@ Edits land in this repo automatically (the configs *are* these files). Commit an
 | `bootstrap.sh` | — | Sets up a new Mac from this repo |
 | `vendor/ECC/` | — | ECC source (git clone, not tracked) |
 | `docs/` | — | Cheatsheets: `ZSH.md`, `NEOVIM.md`, `CLAUDE-CODE.md`, skills audit |
+| `docs/guides/` | — | Setup guides: `local-ai-setup-guide.md` (Ollama/LM Studio on the Mac mini), `agent_setup.md` (LLM agent tool-calling notes) |
 | `archive/` | — | Old configs from earlier cleanups |
 | `link.sh` | — | Creates/repairs every link above |
 
