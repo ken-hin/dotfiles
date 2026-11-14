@@ -50,7 +50,7 @@ ENABLE_CORRECTION="true"
 # You can also set it to another string to have that shown instead of the default red dots.
 # e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
 # Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -109,6 +109,7 @@ fpath=($HOME/.docker/completions $fpath)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+znt_list_border=1
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -130,18 +131,15 @@ source <(fzf --zsh)
 
 # ------- Listing Utilities -------
 #alias lls='ls -A -l -t -y -G -h -T -p -n -F -o -D "%m/%d/%Y %H:%M:%S" '
-alias lls='eza -T --level=1 -a -l -h -m --icons=always'
-alias llsd='eza -T --level=2 -a -l -h -m  --total-size --icons=always'
-
+alias lls='lls_depth'
 
 # ------ Traversal ------
-alias cdd='cd && cd Desktop'
-alias cds='cd && cd Desktop/School && lls'
+alias desk='cd && cd Desktop'
 alias cdbrew='cd && cd ../../opt/homebrew'
 
 # -----  zsh Config -----
-alias zfig='nvim ~/.zshrc'
-alias zload='source ~/.zshrc'
+alias shfig='nvim ~/.zshrc'
+alias shload='source ~/.zshrc'
 
 # -----  Dotfiles (all configs live in ~/dotfiles, symlinked into place) -----
 alias dots='cd ~/dotfiles'
@@ -200,8 +198,50 @@ dud() {
     # size column, $2 is the path. \t keeps it aligned with du's output.
     du -sh "$target" 2>/dev/null | awk '{print $1"\t"$2" (total)"}'
 }
+
+# lls [-L depth] [path ...]   tree-style long listing, like ls but recursive.
+#   lls              current dir, 1 level
+#   lls ~/foo        ~/foo, 1 level
+#   lls -L 3 ~/foo   ~/foo, 3 levels   (also: lls 3 ~/foo, lls ~/foo 3)
+# A bare number counts as the depth unless a file/dir with that name exists.
+# Any other args (paths or extra eza flags) are passed straight to eza.
+_lls_usage() {
+  echo "Usage: lls [-L depth | depth] [path ...]" >&2
+  echo "  depth    Number of subdirectory levels to list (1..$1, default: 1)" >&2
+}
+
+lls_depth() {
+  local -r max_depth=5
+  local depth=1
+  local -a args=()
+
+  while (( $# )); do
+    case $1 in
+      --help)
+        _lls_usage $max_depth; return 0 ;;
+      -L|--level)
+        if (( $# < 2 )); then _lls_usage $max_depth; return 1; fi
+        depth=$2; shift ;;
+      -L?*)      depth=${1#-L} ;;
+      --level=*) depth=${1#--level=} ;;
+      --)        shift; args+=("$@"); break ;;
+      <->)
+        if [[ -e $1 ]]; then args+=("$1"); else depth=$1; fi ;;
+      *)         args+=("$1") ;;
+    esac
+    shift
+  done
+
+  if [[ $depth != <-> ]] || (( depth < 1 || depth > max_depth )); then
+    echo "lls: invalid depth '$depth'" >&2
+    _lls_usage $max_depth
+    return 1
+  fi
+
+  eza -T --level=$depth -a -l -h -m --total-size --icons=always --no-user "${args[@]}"
+}
 # ======================= End Custom Functions =======================
 
 # zoxide (z, zi). Keep this last: it hooks into cd and prompt handling,
 # so it wants to load after everything else.
-eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh --cmd cd)"
