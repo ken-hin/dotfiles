@@ -44,7 +44,7 @@ Edits land in this repo automatically (the configs *are* these files). Commit an
 
 | Task | Command |
 | --- | --- |
-| Edit zsh config | `zfig`, then `zload` |
+| Edit zsh config | `shfig`, then `shload` |
 | Edit Neovim config | `nvfig` |
 | Add/remove an ECC skill or agent | Edit `claude/ecc/ecc-skills.txt` / `ecc-agents.txt`, run `claude/ecc/install-ecc.sh` |
 | Update ECC | `cd vendor/ECC && git pull && npm install --omit=dev --ignore-scripts && ../../claude/ecc/install-ecc.sh` |
