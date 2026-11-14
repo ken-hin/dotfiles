@@ -11,7 +11,7 @@ Quick lookups from the terminal:
 - `bindkey '^R'` shows what a key does. `bindkey` alone lists them all.
 - `omz plugin list --enabled` lists your plugins; `omz plugin info <name>` shows one plugin's README.
 
-After editing `~/.zshrc`: `omz reload` (or `zload`, or open a new tab).
+After editing `~/.zshrc`: `omz reload` (or `shload`, or open a new tab).
 
 ## Contents
 
@@ -105,13 +105,11 @@ Every key at the prompt and which plugin it comes from. Option works as Alt in G
 
 | Alias | What it does |
 | --- | --- |
-| `lls` | `eza -T --level=1 -a -l -h -m --icons=always`: everything here (dotfiles too) as a one-level tree, long format with icons, modified dates and a header row |
-| `llsd` | Same, two levels deep, with `--total-size` (folders show the size of everything inside them; slower on big folders) |
-| `cdd` | Go to Desktop |
-| `cds` | Go to `Desktop/School` and run `lls` |
+| `lls [-L depth] [path ...]` | Tree-style long listing via the `lls_depth` function: `eza -T -a -l -h -m --total-size --icons=always --no-user`. Everything (dotfiles too) with icons, modified dates, a header row and folder sizes that include their contents (slower on big folders). Works like `ls`: `lls` lists here, `lls ~/foo bar/` lists those paths. Depth defaults to 1; set it with `-L 3`, `--level=3`, or a bare number (`lls 3 ~/foo`, `lls ~/foo 3`), range 1–5. A bare number is a path if a file or folder with that name exists; `lls -- 3` forces it. Other args go straight to eza. `lls --help` prints usage |
+| `desk` | Go to Desktop |
 | `cdbrew` | Go to `/opt/homebrew` |
-| `zfig` | Open `~/.zshrc` in Neovim |
-| `zload` | Reload `~/.zshrc` |
+| `shfig` | Open `~/.zshrc` in Neovim |
+| `shload` | Reload `~/.zshrc` |
 | `nvfig` | Open your Neovim config folder in Neovim |
 | `g` | `git` |
 | `ga` | `git add` |
@@ -314,10 +312,10 @@ For all the tools (from `n-list.conf`):
 
 | Setting | Yours | What it does |
 | --- | --- | --- |
-| `znt_list_bold` | `0` | Bold text (1) or not (0) |
-| `znt_list_colorpair` | `white/black` | Text color / background |
-| `znt_list_border` | `0` | Draw a border (1) or not (0) |
-| `znt_list_themes` | 7 themes | Colors cycled with Ctrl-T / Ctrl-G, written `fg/bg/bold`, e.g. `( "white/black/1" "green/black/0" )`. 256-color numbers work too |
+| `znt_list_bold` | `1` | Bold text (1) or not (0) |
+| `znt_list_colorpair` | `green/black` | Text color / background |
+| `znt_list_border` | `1` (set in `.zshrc`; the file says `0`) | Draw a border (1) or not (0) |
+| `znt_list_themes` | 15 256-color themes | Colors cycled with Ctrl-T / Ctrl-G, written `fg/bg/bold`, e.g. `( "white/black/1" "green/black/0" )`. 256-color numbers work too |
 | `znt_list_instant_select` | `0` | `1` makes Enter in search mode pick right away |
 
 For each tool, replace `<tool>` with `history`, `cd`, `kill`, `aliases`, `functions`, `env`, `options` or `panelize`:
@@ -580,18 +578,18 @@ Functions you can define to change behavior further: `_fzf_compgen_path` and `_f
 
 ### zoxide
 
-`z` jumps to a folder from a piece of its name, picking the one you use most often and most recently. Every folder you cd into is added to its list.
+zoxide is set up with `--cmd cd`, so it replaces `cd` itself: `cd foo` jumps to a folder from a piece of its name, picking the one you use most often and most recently, while `cd` with a real path works as usual. Every folder you visit is added to its list. The interactive picker is `cdi`. (The upstream docs call these `z` and `zi`; those names don't exist in your shell.)
 
 #### Commands
 
 | Command | What it does |
 | --- | --- |
-| `z foo` | Go to the best match for "foo" |
-| `z foo bar` | Best match containing "foo" then "bar" |
-| `z ~/path`, `z ..`, `z dir/` | Works like plain `cd` for real paths |
-| `z -` | Previous folder |
-| `zi foo` | Pick from the matches with fzf |
-| `z foo` then `Space` `Tab` | Pick from the matches as completions |
+| `cd foo` | Go to the best match for "foo" |
+| `cd foo bar` | Best match containing "foo" then "bar" |
+| `cd ~/path`, `cd ..`, `cd dir/` | Works like plain `cd` for real paths |
+| `cd -` | Previous folder |
+| `cdi foo` | Pick from the matches with fzf |
+| `cd foo` then `Space` `Tab` | Pick from the matches as completions |
 | `zoxide query foo` | Print the best match without going there |
 | `zoxide query -l` / `-ls` | List all remembered folders / with scores |
 | `zoxide query -i` | Pick interactively and print it |
@@ -604,14 +602,14 @@ How ranking works: each visit adds 1 to a folder's score. When you search, the s
 
 #### Settings
 
-Environment variables, set above the `eval "$(zoxide init zsh)"` line:
+Environment variables, set above the `eval "$(zoxide init zsh --cmd cd)"` line:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
 | `_ZO_DATA_DIR` | `~/Library/Application Support` | Where the database is kept |
 | `_ZO_ECHO` | unset | `1` prints the folder before jumping |
 | `_ZO_EXCLUDE_DIRS` | `$HOME` | Folders never added, as colon-separated globs: `"$HOME:$HOME/Library/*"` |
-| `_ZO_FZF_OPTS` | unset | fzf options for `zi` |
+| `_ZO_FZF_OPTS` | unset | fzf options for `cdi` |
 | `_ZO_MAXAGE` | `10000` | Cap on the total score; old, rarely used folders drop off past it |
 | `_ZO_RESOLVE_SYMLINKS` | unset | `1` stores real paths instead of symlinks |
 
@@ -619,7 +617,7 @@ Options for the `zoxide init zsh` line itself:
 
 | Option | What it does |
 | --- | --- |
-| `--cmd <name>` | Rename the commands: `--cmd j` gives `j` and `ji`; `--cmd cd` replaces `cd` itself |
+| `--cmd <name>` | Rename the commands: `--cmd j` gives `j` and `ji`; `--cmd cd` (yours) replaces `cd` itself and gives `cdi` |
 | `--hook none` / `prompt` / `pwd` | When folders get scored: never, at every prompt, or on every cd (default) |
 | `--no-cmd` | Don't create `z` and `zi` (they stay available as `__zoxide_z` and `__zoxide_zi`) |
 
@@ -728,7 +726,7 @@ Set near the top of `.zshrc`, before OMZ.
 | `ENABLE_CORRECTION` | off | `true` | Auto-correction, described above |
 | `CASE_SENSITIVE` | off | off | `true` makes completion case-sensitive |
 | `HYPHEN_INSENSITIVE` | off | off | `true` lets `-` and `_` match each other in completion |
-| `COMPLETION_WAITING_DOTS` | off | off | `true` (or your own text) shows dots while completion is working |
+| `COMPLETION_WAITING_DOTS` | off | `true` | `true` (or your own text) shows dots while completion is working |
 | `DISABLE_MAGIC_FUNCTIONS` | off | off | `true` if pasted URLs or text get mangled |
 | `DISABLE_LS_COLORS` | off | off | `true` turns off colors in `ls` |
 | `DISABLE_AUTO_TITLE` | off | off | `true` stops Oh My Zsh from setting the tab title |
@@ -759,7 +757,7 @@ Searched top to bottom. `which -a <command>` shows every copy of a command and w
 
 | Tool | What it's for | Commands to remember |
 | --- | --- | --- |
-| eza (0.23) | Modern `ls` behind `lls` and `llsd`. Note `-h` means header row, not human sizes (sizes are human by default) | `eza -l`, `eza -T -L 2` tree, `eza -l -s modified` sort by date (`-r` reverses), `eza --git -l` git status column |
+| eza (0.23) | Modern `ls` behind `lls`. Note `-h` means header row, not human sizes (sizes are human by default) | `eza -l`, `eza -T -L 2` tree, `eza -l -s modified` sort by date (`-r` reverses), `eza --git -l` git status column |
 | ripgrep (`rg`) | Fast text search (also powers grep in Neovim) | `rg "text"`, `rg -i` ignore case, `rg -l` file names only, `rg -t py foo` Python files only |
 | fd | Fast file finder (also powers file search in Neovim) | `fd name`, `fd -e lua` by extension, `fd -H` include hidden |
 | trash | Moves files to the macOS Trash (built into macOS) | `trash file` instead of `rm file` |
@@ -770,6 +768,8 @@ Searched top to bottom. `which -a <command>` shows every copy of a command and w
 | lazygit | Terminal git UI (also `<leader>gg` in Neovim) | `lazygit` in a repo |
 
 ## Change log
+
+- 2026-11-13: `lls` is now the `lls_depth` function: takes paths like `ls` plus an optional depth (`-L N`, `--level=N` or a bare number, 1–5), always shows total folder sizes; `llsd` removed. Renamed `cdd` → `desk`, `zfig` → `shfig`, `zload` → `shload`; removed `cds`. zoxide now runs with `--cmd cd` (`cd` jumps, `cdi` picks). Turned on `COMPLETION_WAITING_DOTS`. znt lists: bold, green, border on, 256-color themes.
 
 - 2026-11-13: Removed the Oh My Zsh `git` plugin (201 aliases, of which only `g`, `ga`, `gcam` appeared in history). Those three are now your own aliases in `.zshrc`; git's tab completion is built into zsh and unaffected. Shell aliases: 318 → 116.
 

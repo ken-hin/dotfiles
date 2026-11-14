@@ -242,6 +242,6 @@ lls_depth() {
 }
 # ======================= End Custom Functions =======================
 
-# zoxide (z, zi). Keep this last: it hooks into cd and prompt handling,
+# zoxide, replacing cd (cd, cdi). Keep this last: it hooks into cd and prompt handling,
 # so it wants to load after everything else.
 eval "$(zoxide init zsh --cmd cd)"
